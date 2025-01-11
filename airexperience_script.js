@@ -154,3 +154,34 @@ function sellVideoCAE(videoID){
   })
 }
 
+// Vent til hele siden er indlæst
+document.addEventListener("DOMContentLoaded", function () {
+    // Find alle rækker med reservationer
+    const reservationRows = document.querySelectorAll(".Reservations > div"); // Tilpas selectoren, hvis nødvendig
+
+    // Gennemgå hver række
+    reservationRows.forEach(row => {
+        // Find cellen med minutter (eller brug en specifik selector til minutcellen)
+        const minutesCell = row.querySelector("span:contains('minutes')"); // Brug passende selector for at finde minutter
+
+        if (minutesCell) {
+            // Opret en ny checkbox
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.title = "Marker som ankommet";
+            checkbox.style.marginRight = "10px";
+
+            // Tilføj checkbox til rækken lige før minutterne
+            minutesCell.parentNode.insertBefore(checkbox, minutesCell);
+
+            // Tilføj en event listener for at logge ændringer (valgfrit)
+            checkbox.addEventListener("change", function () {
+                if (checkbox.checked) {
+                    console.log("Kunde markeret som ankommet");
+                } else {
+                    console.log("Markering fjernet");
+                }
+            });
+        }
+    });
+});
