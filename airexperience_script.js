@@ -113,11 +113,15 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
         })
     },200))
 
+  /* Nyt checksystem til resevations.
+  
   $(".costWrap").before(`<input type="checkbox" style="
-      position: absolute;
+     position: absolute;
       margin-left: -24px;
       margin-top: 12px;
   ">`)
+  
+  */
 }
 
 
