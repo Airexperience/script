@@ -154,6 +154,7 @@ function sellVideoCAE(videoID){
   })
 }
 
+
 // Vent til hele siden er indlæst
 document.addEventListener("DOMContentLoaded", function () {
     // Find alle rækker med reservationer
@@ -161,8 +162,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Gennemgå hver række
     reservationRows.forEach(row => {
-        // Find cellen med minutter (eller brug en specifik selector til minutcellen)
-        const minutesCell = row.querySelector("span:contains('minutes')"); // Brug passende selector for at finde minutter
+        // Find cellen med minutter (ændr dette hvis nødvendigt baseret på strukturen)
+        const minutesCell = Array.from(row.children).find(cell => 
+            cell.textContent.includes("minutes")
+        );
 
         if (minutesCell) {
             // Opret en ny checkbox
@@ -185,3 +188,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
