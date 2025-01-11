@@ -112,6 +112,12 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
             }
         })
     },200))
+
+  $(".costWrap").before(`<input type="checkbox" style="
+      position: absolute;
+      margin-left: -24px;
+      margin-top: 12px;
+  ">`)
 }
 
 
