@@ -114,7 +114,8 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
     },200))
 
   // Nyt checksystem til resevations.
-  
+
+  /* //Not finished
   
   jQuery.noConflict();
   jQuery(document).ready(() => {
@@ -147,6 +148,8 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
           console.log("Saved to localStorage:", checkedBoxes);
       });
   });
+
+  */
 }
 
 
