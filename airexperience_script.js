@@ -116,12 +116,37 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
   // Nyt checksystem til resevations.
   
   
-  $(".costWrap").before(`<input type="checkbox" class="reservationCheckbox" style="
-     position: absolute;
-      margin-left: -24px;
-      margin-top: 12px;
-      transform: scale(1.5);
-  ">`)
+  jQuery.noConflict();
+  jQuery(document).ready(() => {
+      // Dynamisk tilføjelse af tjekboks
+      jQuery(".costWrap").before(`<input type="checkbox" class="reservationCheckbox" style="
+          position: absolute;
+          margin-left: -24px;
+          margin-top: 12px;
+      ">`);
+      console.log("Checkbox added:", jQuery(".reservationCheckbox"));
+  
+      // Hent gemt status fra localStorage og anvend det
+      const savedChecked = JSON.parse(localStorage.getItem('checkedBoxes')) || {};
+      jQuery(".reservationCheckbox").each((index, checkbox) => {
+          if (savedChecked[index]) {
+              checkbox.checked = true;
+          }
+      });
+  
+      // Håndtering af ændringer
+      jQuery(".reservationCheckbox").change(function () {
+          const checkedBoxes = {};
+  
+          // Gem status for alle tjekbokse
+          jQuery(".reservationCheckbox").each((index, checkbox) => {
+              checkedBoxes[index] = checkbox.checked;
+          });
+  
+          localStorage.setItem('checkedBoxes', JSON.stringify(checkedBoxes));
+          console.log("Saved to localStorage:", checkedBoxes);
+      });
+  });
 }
 
 
