@@ -115,31 +115,13 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
 
   // Nyt checksystem til resevations.
   
-  $(".costWrap").before(`<input type="checkbox" style="
+  
+  $(".costWrap").before(`<input type="checkbox" class="reservationCheckbox" style="
      position: absolute;
       margin-left: -24px;
       margin-top: 12px;
+      transform: scale(1.5);
   ">`)
-  
-
-    jQuery(document).on('change', '.reservationCheckbox', function () {
-      const checkedBoxes = {};
-      jQuery(".reservationCheckbox").each((index, checkbox) => {
-          checkedBoxes[index] = checkbox.checked;
-      });
-      localStorage.setItem('checkedBoxes', JSON.stringify(checkedBoxes));
-      console.log("Saved to localStorage:", checkedBoxes);
-  });
-  
-  jQuery(document).ready(() => {
-      const savedChecked = JSON.parse(localStorage.getItem('checkedBoxes')) || {};
-      console.log("Loaded from localStorage:", savedChecked);
-      jQuery(".reservationCheckbox").each((index, checkbox) => {
-          if (savedChecked[index]) {
-              checkbox.checked = true;
-          }
-      });
-  });
 }
 
 
