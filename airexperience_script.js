@@ -115,7 +115,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
 
   // Nyt checksystem til resevations.
 
-  /* //Not finished
+  
   
   jQuery.noConflict();
   jQuery(document).ready(() => {
@@ -149,7 +149,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
       });
   });
 
-  */
+  // End of checkin system
 }
 
 
