@@ -129,8 +129,13 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
   
       // Hent gemt status fra localStorage og anvend det
       const savedChecked = JSON.parse(localStorage.getItem('checkedBoxes')) || {};
+  
       jQuery(".reservationCheckbox").each((index, checkbox) => {
-          if (savedChecked[index]) {
+          // Hent data-hour for hver tidsblok, hvis det eksisterer
+          const selectedHourElement = jQuery(".item.hour.open.selected");
+          const dataHour = selectedHourElement.attr("data-hour"); // Brug attr i stedet for data
+  
+          if (savedChecked[dataHour]?.[index]) {
               checkbox.checked = true;
           }
       });
@@ -139,15 +144,26 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
       jQuery(".reservationCheckbox").change(function () {
           const checkedBoxes = {};
   
-          // Gem status for alle tjekbokse
+          // Tjek det valgte data-hour
+          const selectedHourElement = jQuery(".item.hour.open.selected");
+          const dataHour = selectedHourElement.attr("data-hour"); // Brug attr i stedet for data
+  
+          // Initialiser et tomt array for den valgte time, hvis det ikke findes
+          if (!checkedBoxes[dataHour]) {
+              checkedBoxes[dataHour] = {};
+          }
+  
+          // Gem status for alle tjekbokse under det valgte timevindue
           jQuery(".reservationCheckbox").each((index, checkbox) => {
-              checkedBoxes[index] = checkbox.checked;
+              checkedBoxes[dataHour][index] = checkbox.checked;
           });
   
+          // Gem strukturen i localStorage
           localStorage.setItem('checkedBoxes', JSON.stringify(checkedBoxes));
           console.log("Saved to localStorage:", checkedBoxes);
       });
   });
+
 
   // End of checkin system
 }
