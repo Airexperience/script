@@ -124,6 +124,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
           position: absolute;
           margin-left: -24px;
           margin-top: 12px;
+          transform: scale(1.5);
       ">`);
       console.log("Checkbox added:", jQuery(".reservationCheckbox"));
   
