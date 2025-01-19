@@ -71,7 +71,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
   
     setInterval(function(){ document.querySelector('.noteField textarea[rows="5"]').rows=30;}, 500);
   
-    $('[name=email]').live("focus", (e)=>{
+    $('[name=email]').on("focus", (e)=>{
     e.target.value = e.target.value=="" ? generateEmail() : e.target.value
     e.target.select()
     })
@@ -80,7 +80,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
         return `${$('[name=firstName]')[0].value.toLowerCase().replace(/ /gi,".")}.${$('[name=lastName]')[0].value.toLowerCase().replace(/ /gi,".")}@sletmig.dk`.replace(/æ|ø|å/gi,"")
     }
     
-    $('.trigger').live('click', () => setTimeout(()=>{
+    $('.trigger').on('click', () => setTimeout(()=>{
         $('.module-customers form.edit .section').each((i,e) => {
             if(i==1 || i==2) $(e).hide()
         
@@ -96,7 +96,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
                 "mail.dk"
                 ].map(i=>`<a class="changeEmail" href="#">@${i}</a>`)}</div>`
                 $($(e).children()[3]).after(emailChange)
-                 $('.changeEmail').live('click', (e) => {
+                 $('.changeEmail').on('click', (e) => {
                    
                   $('[name=email]')[0].value = $('[name=email]')[0].value.indexOf("@")>-1?$('[name=email]')[0].value.replace(/@.*/gi, e.currentTarget.innerText):$('[name=email]')[0].value+e.currentTarget.innerText
                  })
@@ -113,9 +113,9 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
         })
     },200))
 
-  // Nyt checksystem til resevations.
-
-  
+  ////////////////////////////////
+  // Personer er mødt frem kode://
+  ////////////////////////////////
   
   jQuery.noConflict();
   jQuery(document).ready(() => {
@@ -164,8 +164,6 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
           console.log("Saved to localStorage:", checkedBoxes);
       });
   });
-
-
   // End of checkin system
 }
 
