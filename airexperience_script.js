@@ -71,7 +71,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
   
     setInterval(function(){ document.querySelector('.noteField textarea[rows="5"]').rows=30;}, 500);
   
-    $('[name=email]').on("focus", (e)=>{
+    $('[name=email]').live("focus", (e)=>{
     e.target.value = e.target.value=="" ? generateEmail() : e.target.value
     e.target.select()
     })
@@ -80,7 +80,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
         return `${$('[name=firstName]')[0].value.toLowerCase().replace(/ /gi,".")}.${$('[name=lastName]')[0].value.toLowerCase().replace(/ /gi,".")}@sletmig.dk`.replace(/æ|ø|å/gi,"")
     }
     
-    $('.trigger').on('click', () => setTimeout(()=>{
+    $('.trigger').live('click', () => setTimeout(()=>{
         $('.module-customers form.edit .section').each((i,e) => {
             if(i==1 || i==2) $(e).hide()
         
@@ -96,7 +96,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
                 "mail.dk"
                 ].map(i=>`<a class="changeEmail" href="#">@${i}</a>`)}</div>`
                 $($(e).children()[3]).after(emailChange)
-                 $('.changeEmail').on('click', (e) => {
+                 $('.changeEmail').live('click', (e) => {
                    
                   $('[name=email]')[0].value = $('[name=email]')[0].value.indexOf("@")>-1?$('[name=email]')[0].value.replace(/@.*/gi, e.currentTarget.innerText):$('[name=email]')[0].value+e.currentTarget.innerText
                  })
