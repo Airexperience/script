@@ -116,7 +116,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
   ////////////////////////////////
   // Personer er mødt frem kode://
   ////////////////////////////////
-  
+  /*
   jQuery.noConflict();
   jQuery(document).ready(() => {
       // Dynamisk tilføjelse af tjekboks
@@ -164,6 +164,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
           console.log("Saved to localStorage:", checkedBoxes);
       });
   });
+  */
   // End of checkin system
 }
 
