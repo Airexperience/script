@@ -165,6 +165,7 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
 }
 
 
+
 if(location.href.indexOf(am+'businessHours') > -1){
     setInterval(()=>{
         dialog = document.querySelectorAll('.calendarDialog[style*=display\\:\\ block] .closeHour')[0]
@@ -205,4 +206,113 @@ function sellVideoCAE(videoID){
 }
 
 
+
+////////////////////////////////
+// Operatør                   //
+////////////////////////////////
+
+if(location.href.includes('/?module=operator')){
+
+  var errorWhenSending = false;
+    
+  setTimeout(function(){
+    if(document.querySelectorAll('.hasFlyer.selected')[0]==undefined && document.querySelectorAll('.hasFlyer')[0]!=undefined){
+     document.querySelectorAll('.hasFlyer')[0].click()
+    }
+  },300)
+  
+  document.addEventListener("keyup",function(e){
+    // window.e=e
+    const isDialog = e.target == document.querySelector("div.textMessageDialog input")
+    
+    // text dialog is open, ignore normal shortcuts
+    if(isDialog){
+    	if(e.key == "Escape"){
+    		document.querySelector('[data-action="cancel"]').click()
+    	}
+    
+    	if(e.key == "Enter"){
+    		document.querySelector('[data-action="send"]').click()
+    	}
+    }
+    else{
+    	if(e.key == "i" || e.key == "ArrowRight"){
+    		document.querySelector('.command-in button').click()
+    	}
+    	if(e.key == "o" || e.key == "u" || e.key == "ArrowLeft"){
+    		document.querySelector('.command-out button').click()
+    	}
+    	
+    	if(e.key == "d"){
+    		document.querySelector('.command-toggleDemo button').click()
+    	}
+    
+    
+    	if(e.key == "l"){
+    		document.querySelector('.preset2').click()
+    	}
+    	
+    		if(e.key == "x"){
+    		document.querySelector('.preset1').click()
+    	}
+    
+    	if(e.key == "t"){
+    		document.querySelector('.messageBtn.text[data-type="text"]').click()
+    		//setTimeout(function(){document.querySelector("div.textMessageDialog input")},300)
+    	}
+    
+    }
+  })
+  
+  
+  if (document.querySelector('#timeLeft') == null) {
+    var timeLeftInterval = 0;
+    $('body').append(`<div id="timeLeft" style="
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      margin: 30px;
+  "><span style="
+      font-size: 30px;
+      ">00 minutes</span></div>`);
+  
+  
+  
+    var timeLeft = 0;
+    var lastSentTime = 0;
+    var intervalIndex = 0;
+  
+    timeLeftInterval = setInterval(() => {
+      
+      intervalIndex++;
+  
+      timeLeft = Math.round(Array.from(document.querySelectorAll('.hasFlyer'))
+        .map(item => item.getAttribute('data-flighttime'))
+        .reduce((sum, next) => {
+          return +sum + (+next > 0 ? +next : 0);
+        }, 0) / 60);
+  
+      if ((+lastSentTime != +timeLeft && intervalIndex%4==0) && errorWhenSending == false) {
+        lastSentTime = timeLeft
+        try {
+          fetch('https://ntfy.sh/jgghwhegellg', { method: 'POST', body:timeLeft+" min" })
+        } catch (e) {
+          console.log(e)
+          errorWhenSending = true
+        }
+      }
+  
+      document.querySelector('#timeLeft span').innerText = timeLeft + " minutes";
+  
+      if (timeLeft == 0) {
+        clearInterval(timeLeftInterval);
+        document.querySelector('#timeLeft span').outerHTML = "";
+        timeLeftInterval = 0;
+        intervalIndex = 0;
+      }
+  
+    }, 5000);
+    
+  }
+}
 
