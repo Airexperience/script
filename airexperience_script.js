@@ -162,9 +162,31 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
         console.log("Saved to localStorage:", checkedBoxes);
     });
 
+    ////////////////////////////////
+    // Antal reservationer//
+    ////////////////////////////////
+  
+    // Find listen med reservationer
+    const $reservationList = jQuery('.block.list.reservations');
+    
+    // Hvis listen findes
+    if ($reservationList.length > 0) {
+        const reservationCount = $reservationList.find('li').length;
+    
+        // Tilføj et inputfelt før reservation listen
+        $reservationList.before(`
+            <div class="reservationCountBox" style="
+                margin-bottom: 10px;
+                font-size: 18px;
+                font-weight: bold;
+            ">
+                Antal reservationer: ${reservationCount}
+            </div>
+        `);
+    
+        console.log('Antal reservationer:', reservationCount);
+    }
 }
-
-
 
 if(location.href.indexOf(am+'businessHours') > -1){
     setInterval(()=>{
