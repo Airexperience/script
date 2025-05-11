@@ -117,67 +117,52 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
     // Personer er mødt frem kode://
     ////////////////////////////////
 
-    function addCheckboxes() {
-        jQuery(".costWrap").each(function () {
-            // Undgå at tilføje flere checkbokse end nødvendigt
-            if (jQuery(this).prev(".reservationCheckbox").length === 0) {
-                jQuery(this).before(`<input type="checkbox" class="reservationCheckbox" style="
-                    position: absolute;
-                    margin-left: -24px;
-                    margin-top: 12px;
-                    transform: scale(1.5);
-                ">`);
-            }
-        });
-    
-        const savedChecked = JSON.parse(localStorage.getItem('checkedBoxes')) || {};
+
+    // Dynamisk tilføjelse af tjekboks
+    jQuery(".costWrap").before(`<input type="checkbox" class="reservationCheckbox" style="
+        position: absolute;
+        margin-left: -24px;
+        margin-top: 12px;
+        transform: scale(1.5);
+    ">`);
+    console.log("Checkbox added:", jQuery(".reservationCheckbox"));
+
+    // Hent gemt status fra localStorage og anvend det
+    const savedChecked = JSON.parse(localStorage.getItem('checkedBoxes')) || {};
+
+    jQuery(".reservationCheckbox").each((index, checkbox) => {
+        // Hent data-hour for hver tidsblok, hvis det eksisterer
         const selectedHourElement = jQuery(".item.hour.open.selected");
-        const dataHour = selectedHourElement.attr("data-hour");
-    
-        jQuery(".reservationCheckbox").each((index, checkbox) => {
-            if (savedChecked[dataHour]?.[index]) {
-                checkbox.checked = true;
-            }
-        });
-    }
-    
-    // Kaldes når bruger ændrer checkboks
-    function setupCheckboxHandler() {
-        jQuery(document).on("change", ".reservationCheckbox", function () {
-            const checkedBoxes = {};
-            const selectedHourElement = jQuery(".item.hour.open.selected");
-            const dataHour = selectedHourElement.attr("data-hour");
-    
-            if (!checkedBoxes[dataHour]) {
-                checkedBoxes[dataHour] = {};
-            }
-    
-            jQuery(".reservationCheckbox").each((index, checkbox) => {
-                checkedBoxes[dataHour][index] = checkbox.checked;
-            });
-    
-            localStorage.setItem('checkedBoxes', JSON.stringify(checkedBoxes));
-            console.log("Saved to localStorage:", checkedBoxes);
-        });
-    }
-    
-    // Brug MutationObserver til at overvåge ændringer
-    const targetNode = document.querySelector("#reservationsContainer") || document.body; // brug dit relevante container-ID/klasse her
-    const observerConfig = { childList: true, subtree: true };
-    
-    const observer = new MutationObserver((mutationsList, observer) => {
-        for (const mutation of mutationsList) {
-            if (mutation.type === "childList") {
-                addCheckboxes(); // Når DOM ændres, tilføj checkbokse igen
-            }
+        const dataHour = selectedHourElement.attr("data-hour"); // Brug attr i stedet for data
+
+        if (savedChecked[dataHour]?.[index]) {
+            checkbox.checked = true;
         }
     });
-    
-    observer.observe(targetNode, observerConfig);
-    
-    // Initialt kald
-    addCheckboxes();
-    setupCheckboxHandler();
+
+    // Håndtering af ændringer
+    jQuery(".reservationCheckbox").change(function () {
+        const checkedBoxes = {};
+
+        // Tjek det valgte data-hour
+        const selectedHourElement = jQuery(".item.hour.open.selected");
+        const dataHour = selectedHourElement.attr("data-hour"); // Brug attr i stedet for data
+
+        // Initialiser et tomt array for den valgte time, hvis det ikke findes
+        if (!checkedBoxes[dataHour]) {
+            checkedBoxes[dataHour] = {};
+        }
+
+        // Gem status for alle tjekbokse under det valgte timevindue
+        jQuery(".reservationCheckbox").each((index, checkbox) => {
+            checkedBoxes[dataHour][index] = checkbox.checked;
+
+
+        });
+
+        // Gem strukturen i localStorage
+        localStorage.setItem('checkedBoxes', JSON.stringify(checkedBoxes));
+        console.log("Saved to localStorage:", checkedBoxes);
 
     ////////////////////////////////
     // Antal reservationer//
