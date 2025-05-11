@@ -50,7 +50,7 @@ function flightVideosUICAE(){
 }
 
 if(location.href.indexOf(am+'reception') > -1){
-  
+
     try{
     const tt = new WebSocket('wss://ntfy.sh/jgghwhegellg/ws');
     tt.addEventListener('message', function (event) {
@@ -68,22 +68,22 @@ if(location.href.indexOf(am+'reception') > -1){
 }
 
 if(location.href.indexOf(am+'reception&do=reservations') > -1){
-  
+
     setInterval(function(){ document.querySelector('.noteField textarea[rows="5"]').rows=30;}, 500);
-  
+
     $('[name=email]').live("focus", (e)=>{
     e.target.value = e.target.value=="" ? generateEmail() : e.target.value
     e.target.select()
     })
-    
+
     function generateEmail(){
         return `${$('[name=firstName]')[0].value.toLowerCase().replace(/ /gi,".")}.${$('[name=lastName]')[0].value.toLowerCase().replace(/ /gi,".")}@sletmig.dk`.replace(/æ|ø|å/gi,"")
     }
-    
+
     $('.trigger').live('click', () => setTimeout(()=>{
         $('.module-customers form.edit .section').each((i,e) => {
             if(i==1 || i==2) $(e).hide()
-        
+
             if(i==0){
                 $($(e).children()[0]).hide()
                 const emailChange = `<div class="field " align="center">${
@@ -97,11 +97,11 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
                 ].map(i=>`<a class="changeEmail" href="#">@${i}</a>`)}</div>`
                 $($(e).children()[3]).after(emailChange)
                  $('.changeEmail').live('click', (e) => {
-                   
+
                   $('[name=email]')[0].value = $('[name=email]')[0].value.indexOf("@")>-1?$('[name=email]')[0].value.replace(/@.*/gi, e.currentTarget.innerText):$('[name=email]')[0].value+e.currentTarget.innerText
                  })
             }
-        
+
             if(i==3){
               fc = (c) => $($(e).children()[c]) 
                 fc(0).hide()
@@ -116,7 +116,6 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
     ////////////////////////////////
     // Personer er mødt frem kode://
     ////////////////////////////////
-
 
     // Dynamisk tilføjelse af tjekboks
     jQuery(".costWrap").before(`<input type="checkbox" class="reservationCheckbox" style="
@@ -156,13 +155,12 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
         // Gem status for alle tjekbokse under det valgte timevindue
         jQuery(".reservationCheckbox").each((index, checkbox) => {
             checkedBoxes[dataHour][index] = checkbox.checked;
-
-
         });
 
         // Gem strukturen i localStorage
         localStorage.setItem('checkedBoxes', JSON.stringify(checkedBoxes));
         console.log("Saved to localStorage:", checkedBoxes);
+    });
 
     ////////////////////////////////
     // Antal reservationer//
@@ -189,6 +187,8 @@ if(location.href.indexOf(am+'reception&do=reservations') > -1){
         console.log('Antal reservationer:', reservationCount);
     }
 }
+
+
 
 if(location.href.indexOf(am+'businessHours') > -1){
     setInterval(()=>{
@@ -238,23 +238,23 @@ function sellVideoCAE(videoID){
 if(location.href.includes('/?module=operator')){
 
   var errorWhenSending = false;
-    
+
   setTimeout(function(){
     if(document.querySelectorAll('.hasFlyer.selected')[0]==undefined && document.querySelectorAll('.hasFlyer')[0]!=undefined){
      document.querySelectorAll('.hasFlyer')[0].click()
     }
   },300)
-  
+
   document.addEventListener("keyup",function(e){
     // window.e=e
     const isDialog = e.target == document.querySelector("div.textMessageDialog input")
-    
+
     // text dialog is open, ignore normal shortcuts
     if(isDialog){
     	if(e.key == "Escape"){
     		document.querySelector('[data-action="cancel"]').click()
     	}
-    
+
     	if(e.key == "Enter"){
     		document.querySelector('[data-action="send"]').click()
     	}
@@ -266,29 +266,29 @@ if(location.href.includes('/?module=operator')){
     	if(e.key == "o" || e.key == "u" || e.key == "ArrowLeft"){
     		document.querySelector('.command-out button').click()
     	}
-    	
+
     	if(e.key == "d"){
     		document.querySelector('.command-toggleDemo button').click()
     	}
-    
-    
+
+
     	if(e.key == "l"){
     		document.querySelector('.preset2').click()
     	}
-    	
+
     		if(e.key == "x"){
     		document.querySelector('.preset1').click()
     	}
-    
+
     	if(e.key == "t"){
     		document.querySelector('.messageBtn.text[data-type="text"]').click()
     		//setTimeout(function(){document.querySelector("div.textMessageDialog input")},300)
     	}
-    
+
     }
   })
-  
-  
+
+
   if (document.querySelector('#timeLeft') == null) {
     var timeLeftInterval = 0;
     $('body').append(`<div id="timeLeft" style="
@@ -299,23 +299,23 @@ if(location.href.includes('/?module=operator')){
   "><span style="
       font-size: 30px;
       ">00 minutes</span></div>`);
-  
-  
-  
+
+
+
     var timeLeft = 0;
     var lastSentTime = 0;
     var intervalIndex = 0;
-  
+
     timeLeftInterval = setInterval(() => {
-      
+
       intervalIndex++;
-  
+
       timeLeft = Math.round(Array.from(document.querySelectorAll('.hasFlyer'))
         .map(item => item.getAttribute('data-flighttime'))
         .reduce((sum, next) => {
           return +sum + (+next > 0 ? +next : 0);
         }, 0) / 60);
-  
+
       if ((+lastSentTime != +timeLeft && intervalIndex%4==0) && errorWhenSending == false) {
         lastSentTime = timeLeft
         try {
@@ -325,18 +325,17 @@ if(location.href.includes('/?module=operator')){
           errorWhenSending = true
         }
       }
-  
+
       document.querySelector('#timeLeft span').innerText = timeLeft + " minutes";
-  
+
       if (timeLeft == 0) {
         clearInterval(timeLeftInterval);
         document.querySelector('#timeLeft span').outerHTML = "";
         timeLeftInterval = 0;
         intervalIndex = 0;
       }
-  
+
     }, 5000);
-    
+
   }
 }
-
